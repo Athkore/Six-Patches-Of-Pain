@@ -161,15 +161,6 @@ jobs:
           echo "GIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           echo "GIT_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
           echo "CURR_DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
-      - name: "Install 10.14 SDK"
-        if: success()
-        shell: bash
-        working-directory: ${{ github.workspace }}
-        run: |
-          wget https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX10.14.sdk.tar.xz
-          tar -xf MacOSX10.14.sdk.tar.xz
-          rm MacOSX10.14.sdk.tar.xz
-          sudo mv MacOSX10.14.sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
       - name: "Download and Install prerequisites"
         if: success()
         shell: bash
@@ -177,7 +168,10 @@ jobs:
           rm '/usr/local/bin/2to3' || true
           echo "HOMEBREW_NO_AUTO_UPDATE=1" >> $GITHUB_ENV
           brew upgrade cmake
-          brew install make
+          brew install \
+          make \
+          binutils \
+          gcc
       - name: "Build ${{ matrix.build_type }}"
         if: success()
         shell: bash
@@ -187,7 +181,7 @@ jobs:
         run: |
           export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib
           go build -o ./build/Six-Patches-Of-Pain six_patches_of_pain.go
-      - name: "Package Release DMG"
+      - name: "Package Release"
         if: success()
         shell: bash
         run: |
