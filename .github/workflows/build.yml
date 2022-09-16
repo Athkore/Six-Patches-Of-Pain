@@ -27,9 +27,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Netplay]
+        build_type: [windows]
         include:
-          - build_type: Netplay
+          - build_type: windows
             artifact_name: windows
             build_config: Release
     name: "Windows"
@@ -115,10 +115,11 @@ jobs:
           pkg-config \
           git \
           build-essential
-      - name: "Build ${{ matrix.build_type }} Dolphin"
+      - name: "Build ${{ matrix.build_type }}"
         if: success()
         working-directory: ${{ github.workspace }}
         run: |
+          export PATH=$PATH:~/go/bin
           make linux
       - name: "Package"
         if: success()
@@ -141,11 +142,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [scon]
+        build_type: [macOS]
         include:
-          - build_type: scon
+          - build_type: macOS
             artifact_name: macOS
-    name: "macOS ${{ matrix.build_type }}"
+    name: "macOS"
     runs-on: macos-10.15
     steps:
       - name: "Checkout"
@@ -189,6 +190,7 @@ jobs:
           CERTIFICATE_MACOS_APPLICATION: ${{ secrets.CERTIFICATE_MACOS_APPLICATION }}
         run: |
           export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib
+          export PATH=$PATH:~/go/bin
           make mac
       - name: "Package Release DMG"
         if: success()
