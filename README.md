@@ -100,6 +100,8 @@ You are now done, downloads will now come from this location instead of the prev
 
 To build the code, first make sure you have [go 1.16+](https://golang.org/) installed.
 
+You also need a c/c++ compiler for your target platform installed. If the compiler is not set as the standard compiler you will have to set the environment variable `CC` to your c-compiler path, and `CXX` to your c++-compiler path.
+
 Then install `pb`, `goversioninfo` and `go-xdelta` by running:
 
 ```bash
@@ -120,7 +122,7 @@ mac
 ```
 
 
-Different build environments can be targeted by using the `GOOS` env entry.
+Different build environments can be targeted by using the `GOOS` env entry to your target OS, and the `CGO_ENABLED` env entry to 1.
 
 ### Powershell Example
 
