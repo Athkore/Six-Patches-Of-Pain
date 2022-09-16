@@ -171,7 +171,8 @@ jobs:
           brew install \
           make \
           binutils \
-          gcc
+          gcc \
+          xz
       - name: "Build ${{ matrix.build_type }}"
         if: success()
         shell: bash
