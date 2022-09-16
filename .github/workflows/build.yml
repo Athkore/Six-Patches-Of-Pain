@@ -62,14 +62,12 @@ jobs:
         shell: cmd
         run: |
           go generate
-          garble build -o .\build\Six-Patches-Of-Pain.exe
+          garble build -o .\build\Six-Patches-Of-Pain.exe six_patches_of_pain.go
       - name: "Package Artifact"
         working-directory: ${{ github.workspace }}
         run: |
-          $FILE_NAME="${{ env.CURR_DATE }}-${{ env.GIT_HASH }}-${{ env.GIT_TAG }}-${{ matrix.artifact_name }}.zip"
           mkdir artifact
-          7z a $FILE_NAME .\build\Six-Patches-Of-Pain.exe
-          move $FILE_NAME .\artifact\
+          move .\build\Six-Patches-Of-Pain.exe .\artifact\
       - name: "Publish"
         if: success()
         uses: actions/upload-artifact@v2-preview
@@ -120,15 +118,13 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           export PATH=$PATH:~/go/bin
-          make linux
+          go build -o ./build/Six-Patches-Of-Pain six_patches_of_pain.go
       - name: "Package"
         if: success()
         working-directory: ${{ github.workspace }}
         run: |
           mkdir artifact
-          FILE_NAME=${{ env.CURR_DATE }}-${{ env.GIT_HASH }}-${{ env.GIT_TAG }}-${{ matrix.artifact_name }}.zip
-          zip -r -j "${FILE_NAME}" ./build/Six-Patches-Of-Pain
-          mv "${FILE_NAME}" ./artifact/
+          mv ./build/Six-Patches-Of-Pain ./artifact/
       - name: "Publish"
         if: success()
         uses: actions/upload-artifact@v2-preview
@@ -190,16 +186,13 @@ jobs:
           CERTIFICATE_MACOS_APPLICATION: ${{ secrets.CERTIFICATE_MACOS_APPLICATION }}
         run: |
           export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib
-          export PATH=$PATH:~/go/bin
-          make mac
+          go build -o ./build/Six-Patches-Of-Pain six_patches_of_pain.go
       - name: "Package Release DMG"
         if: success()
         shell: bash
         run: |
-          FILE_NAME=${{ env.CURR_DATE }}-${{ env.GIT_HASH }}-${{ env.GIT_TAG }}-${{ matrix.artifact_name }}.zip
           mkdir artifact
-          zip -r -j "${FILE_NAME}" ./build/Six-Patches-Of-Pain
-          mv "${{ env.FILE_NAME }}" artifact/
+          mv ./build/Six-Patches-Of-Pain artifact/
       - name: "Publish"
         if: success()
         uses: actions/upload-artifact@v2-preview
