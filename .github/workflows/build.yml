@@ -172,8 +172,7 @@ jobs:
           make \
           binutils \
           gcc \
-          wget \
-          tar
+          wget
       - name: "Build lzma library"
         shell: bash
         working-directory: ${{ github.workspace }}
