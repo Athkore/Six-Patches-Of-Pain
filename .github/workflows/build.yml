@@ -172,7 +172,24 @@ jobs:
           make \
           binutils \
           gcc \
-          xz
+          wget \
+          tar
+      - name: "Build lzma library"
+        shell: bash
+        working-directory: ${{ github.workspace }}
+        run: |
+          wget https://tukaani.org/xz/xz-5.2.1.tar.gz
+          tar -xvf xz*.tar.gz
+          cd xz*
+          ./configure \
+          --host=x86_64-apple-darwin \
+          --prefix=${/usrl/local/} \
+          --enable-static \
+          --disable-shared \
+          "CC=gcc" \
+          "CXX=g++"
+          make
+          make install
       - name: "Build ${{ matrix.build_type }}"
         if: success()
         shell: bash
@@ -180,7 +197,7 @@ jobs:
         env:
           CERTIFICATE_MACOS_APPLICATION: ${{ secrets.CERTIFICATE_MACOS_APPLICATION }}
         run: |
-          export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib
+          export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
           go build -o ./build/Six-Patches-Of-Pain six_patches_of_pain.go
       - name: "Package Release"
         if: success()
