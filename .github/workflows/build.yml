@@ -1,12 +1,12 @@
 name: Builds
 
-on:
-  release:
-    types: [prereleased]
-    branches:
-        - "**"
-    paths-ignore:
-        - "**.md"
+on: [push]
+#  release:
+#    types: [prereleased]
+#    branches:
+#        - "**"
+#    paths-ignore:
+#        - "**.md"
 
 jobs:
   skip_duplicates:
@@ -182,7 +182,7 @@ jobs:
           cd xz*
           ./configure \
           --host=x86_64-apple-darwin \
-          --prefix=${/usrl/local/} \
+          --prefix="/usr/local/" \
           --enable-static \
           --disable-shared \
           "CC=gcc" \
