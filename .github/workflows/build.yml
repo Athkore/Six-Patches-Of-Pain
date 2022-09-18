@@ -173,22 +173,22 @@ jobs:
           binutils \
           gcc \
           wget
-      - name: "Build lzma library"
-        shell: bash
-        working-directory: ${{ github.workspace }}
-        run: |
-          wget https://tukaani.org/xz/xz-5.2.1.tar.gz
-          tar -xvf xz*.tar.gz
-          cd xz*
-          ./configure \
-          --host=x86_64-apple-darwin \
-          --prefix="/usr/local/" \
-          --enable-static \
-          --disable-shared \
-          "CC=gcc" \
-          "CXX=g++"
-          make
-          make install
+      #- name: "Build lzma library"
+      #  shell: bash
+      #  working-directory: ${{ github.workspace }}
+      #  run: |
+      #    wget https://tukaani.org/xz/xz-5.2.1.tar.gz
+      #    tar -xvf xz*.tar.gz
+      #    cd xz*
+      #    ./configure \
+      #    --host=x86_64-apple-darwin \
+      #    --prefix="/usr/local/" \
+      #    --enable-static \
+      #    --disable-shared \
+      #    "CC=gcc" \
+      #    "CXX=g++"
+      #    make
+      #    make install
       - name: "Build ${{ matrix.build_type }}"
         if: success()
         shell: bash

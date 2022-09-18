@@ -11,7 +11,7 @@ mac:
 get:
 	go get github.com/cheggaaa/pb/v3
 	go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
-	go get github.com/Athkore/go-xdelta@aa822caf820ad0418a31f86bdffbf248981786a5
+	go get github.com/Athkore/go-xdelta@b2df94f9b7a7fbf2493e4f47ae668bf295a6d264
 
 clean:
 	rm -rf ./build
