@@ -1,0 +1,34 @@
+name: Upload Latest Artifacts to Release
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  package:
+    name: Release New SCON Dolphin
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Get version'
+        run: |
+          echo "VERSION=$(echo ${{ github.ref }} | cut -d "v" -f 2)" >> $GITHUB_ENV
+      - name: Download latest artifacts
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: build.yml
+          branch: main
+      - name: Organize release files"
+        run: |
+          mv *linux* "Six-Patches-Of-Pain-${{ env.VERSION }}-Linux.zip"
+          mv *mac* "Six-Patches-Of-Pain-${{ env.VERSION }}-Mac.zip"
+          mv *windows* "Six-Patches-Of-Pain-${{ env.VERSION }}-Windows.zip"
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
+
