@@ -7,12 +7,12 @@ on:
 
 jobs:
   package:
-    name: Release New SCON Dolphin
+    name: Release New Six Patches Of Pain
     runs-on: ubuntu-latest
     steps:
       - name: 'Get version'
         run: |
-          echo "VERSION=$(echo ${{ github.ref }} | cut -d "v" -f 2)" >> $GITHUB_ENV
+          echo "VERSION=$(echo ${{ github.ref }} | cut -d 'v' -f 2)" >> $GITHUB_ENV
       - name: Download latest artifacts
         uses: dawidd6/action-download-artifact@v2
         with:
@@ -20,6 +20,8 @@ jobs:
           workflow: build.yml
       - name: Organize release files"
         run: |
+          find ./ -mindepth 2 -type f -exec mv -t ./ -i '{}' +
+          find . -type d -empty -delete
           mv *linux* "Six-Patches-Of-Pain-${{ env.VERSION }}-Linux.zip"
           mv *mac* "Six-Patches-Of-Pain-${{ env.VERSION }}-Mac.zip"
           mv *windows* "Six-Patches-Of-Pain-${{ env.VERSION }}-Windows.zip"
