@@ -22,9 +22,9 @@ jobs:
         run: |
           find ./ -mindepth 2 -type f -exec mv -t ./ -i '{}' +
           find . -type d -empty -delete
-          mv *linux* "Six-Patches-Of-Pain-${{ env.VERSION }}-Linux.zip"
-          mv *mac* "Six-Patches-Of-Pain-${{ env.VERSION }}-Mac.zip"
-          mv *windows* "Six-Patches-Of-Pain-${{ env.VERSION }}-Windows.zip"
+          mv "linux.zip" "Six-Patches-Of-Pain-${{ env.VERSION }}-Linux.zip"
+          mv "macOS.zip" "Six-Patches-Of-Pain-${{ env.VERSION }}-Mac.zip"
+          mv "windows.zip" "Six-Patches-Of-Pain-${{ env.VERSION }}-Windows.zip"
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
