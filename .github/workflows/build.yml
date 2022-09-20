@@ -1,9 +1,9 @@
 name: Builds
 
 on:
-  label:
+  release:
     types:
-      - created
+      - prereleased
 
 jobs:
   skip_duplicates:
